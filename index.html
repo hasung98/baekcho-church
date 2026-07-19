@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=3.0"
+    />
+    <title>백초교회</title>
+    <meta
+      name="description"
+      content="백초교회 홈페이지 - 담임목사 인사말, 교회 역사, 섬기는 사람들, 이번 주 설교와 주보를 확인하세요"
+    />
+    <style>
+      :root {
+        --cream: #f6f1e6;
+        --paper: #ffffff;
+        --ink: #26231d;
+        --ink-soft: #5b5346;
+        --forest: #3f5b44;
+        --forest-dark: #2c4030;
+        --brass: #c08d42;
+        --clay: #a24936;
+        --steel: #3e5c76;
+        --teal: #2f7a78;
+        --line: #e6dfcf;
+        --focus: #1959b8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic",
+          sans-serif;
+        font-size: 18px;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .wrap-narrow {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* ===================== 상단 유틸바 ===================== */
+      .utility-bar {
+        background: var(--forest-dark);
+        color: #e4d8be;
+      }
+      .utility-bar .wrap {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 14px;
+        padding: 8px 20px;
+        font-size: 14px;
+        flex-wrap: wrap;
+      }
+      .utility-bar a {
+        color: #e4d8be;
+      }
+      .utility-bar a:hover {
+        color: #fff;
+      }
+      .utility-bar .sep {
+        opacity: 0.4;
+      }
+
+      /* ===================== 로고 헤더 ===================== */
+      .brand-header {
+        background: var(--paper);
+        border-bottom: 1px solid var(--line);
+      }
+      .brand-header .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand .mark {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: var(--forest);
+        color: #f3e8ce;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+      }
+      .brand-name {
+        font-family: "Noto Serif KR", serif;
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--forest-dark);
+        line-height: 1.2;
+      }
+      .brand-sub {
+        font-size: 13px;
+        color: var(--ink-soft);
+        letter-spacing: 0.5px;
+      }
+
+      /* ===================== 메인 내비게이션 ===================== */
+      nav.main-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--paper);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 2px 10px rgba(44, 64, 48, 0.06);
+      }
+      nav.main-nav .nav-list {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        list-style: none;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 0 20px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      nav.main-nav .nav-list::-webkit-scrollbar {
+        display: none;
+      }
+      nav.main-nav .nav-list li {
+        flex: 0 0 auto;
+      }
+      nav.main-nav .nav-list a {
+        display: block;
+        padding: 16px 18px;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--ink);
+        white-space: nowrap;
+        border-bottom: 3px solid transparent;
+      }
+      nav.main-nav .nav-list a:hover,
+      nav.main-nav .nav-list a:focus-visible {
+        color: var(--forest-dark);
+        border-bottom-color: var(--brass);
+      }
+
+      /* ===================== 히어로 슬라이더 ===================== */
+      .hero-slider {
+        position: relative;
+        height: 62vh;
+        min-height: 360px;
+        max-height: 560px;
+        overflow: hidden;
+      }
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.9s ease;
+      }
+      .hero-slide.active {
+        opacity: 1;
+      }
+      .hero-slide::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(20, 20, 15, 0.28);
+      }
+      .hero-slide.s1 {
+        background: radial-gradient(circle at 30% 20%, #6b5335, #2c4030 70%);
+      }
+      .hero-slide.s2 {
+        background: radial-gradient(circle at 70% 30%, #4a6b52, #1f2e22 70%);
+      }
+      .hero-slide.s3 {
+        background: radial-gradient(circle at 40% 70%, #8a6a3a, #2c4030 75%);
+      }
+      .hero-slide .hero-text {
+        position: relative;
+        max-width: 640px;
+      }
+      .hero-slide .verse {
+        font-family: "Noto Serif KR", serif;
+        font-weight: 800;
+        font-size: 34px;
+        line-height: 1.5;
+        margin: 0 0 14px;
+        text-shadow: 0 3px 14px rgba(0, 0, 0, 0.35);
+      }
+      .hero-slide .cite {
+        font-size: 17px;
+        color: #efe3c8;
+      }
+
+      .hero-dots {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 5;
+      }
+      .hero-dots button {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45);
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+      .hero-dots button.active {
+        background: #fff;
+      }
+
+      @media (max-width: 560px) {
+        .hero-slide .verse {
+          font-size: 26px;
+        }
+        .hero-slider {
+          height: 50vh;
+          min-height: 300px;
+        }
+      }
+
+      /* ===================== 컬러 타일 메뉴 (3개) ===================== */
+      .tile-menu {
+        padding: 34px 0;
+      }
+      .tile-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+      .color-tile {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        min-height: 150px;
+        border-radius: 16px;
+        padding: 22px 22px 20px;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+      .color-tile.t1 {
+        background: linear-gradient(135deg, var(--steel), #274158);
+      }
+      .color-tile.t2 {
+        background: linear-gradient(135deg, var(--teal), #1c4f4d);
+      }
+      .color-tile.t3 {
+        background: linear-gradient(135deg, var(--forest), var(--forest-dark));
+      }
+      .color-tile .tile-icon {
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        font-size: 46px;
+        opacity: 0.5;
+      }
+      .color-tile h3 {
+        margin: 0 0 10px;
+        font-size: 22px;
+        font-weight: 800;
+      }
+      .color-tile .more {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        background: rgba(255, 255, 255, 0.18);
+        padding: 5px 12px;
+        border-radius: 999px;
+      }
+      .color-tile:hover .more {
+        background: rgba(255, 255, 255, 0.32);
+      }
+
+      /* ===================== 바로가기 그리드 + 소식 사이드바 ===================== */
+      .portal {
+        padding: 8px 0 44px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      @media (min-width: 860px) {
+        .portal {
+          grid-template-columns: 2.1fr 1fr;
+        }
+      }
+
+      .shortcut-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 14px;
+      }
+      .shortcut-card {
+        border-radius: 14px;
+        overflow: hidden;
+        color: #fff;
+        position: relative;
+        min-height: 130px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 16px;
+        box-shadow: 0 6px 16px rgba(44, 64, 48, 0.14);
+      }
+      .shortcut-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.12);
+      }
+      .shortcut-card > * {
+        position: relative;
+      }
+      .shortcut-card .ic {
+        font-size: 26px;
+        margin-bottom: 8px;
+      }
+      .shortcut-card .label {
+        font-size: 17px;
+        font-weight: 800;
+      }
+      .shortcut-card .cap {
+        font-size: 12px;
+        opacity: 0.85;
+        letter-spacing: 0.5px;
+        margin-top: 2px;
+      }
+
+      .sc-greeting {
+        background: linear-gradient(150deg, #5a4326, #2c4030);
+      }
+      .sc-history {
+        background: linear-gradient(150deg, #8a6a3a, #40311c);
+      }
+      .sc-bulletin {
+        background: linear-gradient(150deg, #6b5a3d, #2b2418);
+      }
+      .sc-schedule {
+        background: linear-gradient(150deg, #2f7a78, #173e3d);
+      }
+      .sc-location {
+        background: linear-gradient(150deg, #a24936, #5a2419);
+      }
+
+      .sidebar-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 6px 16px rgba(44, 64, 48, 0.08);
+      }
+      .sidebar-card h3 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--forest-dark);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--line);
+        padding-bottom: 10px;
+      }
+      .sidebar-card h3 a {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--brass);
+      }
+      .notice-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .notice-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 15px;
+      }
+      .notice-list li:last-child {
+        border-bottom: none;
+      }
+      .notice-list .date {
+        color: var(--ink-soft);
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+
+      .quick-links {
+        display: flex;
+        gap: 14px;
+        margin-top: 16px;
+      }
+      .quick-link {
+        flex: 1;
+        text-align: center;
+        padding: 14px 8px;
+        border-radius: 12px;
+        background: var(--cream);
+        border: 1px solid var(--line);
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .quick-link .ic {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--forest);
+        color: #f3e8ce;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin: 0 auto 8px;
+      }
+
+      /* ===================== 섹션 공통(상세 콘텐츠) ===================== */
+      section.detail {
+        padding: 52px 0;
+        border-bottom: 1px solid var(--line);
+        scroll-margin-top: 68px;
+      }
+      section.detail:last-of-type {
+        border-bottom: none;
+      }
+      .eyebrow {
+        display: inline-block;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        color: var(--brass);
+        margin-bottom: 8px;
+      }
+      .section-title {
+        font-family: "Noto Serif KR", serif;
+        font-size: 27px;
+        font-weight: 800;
+        color: var(--forest-dark);
+        margin: 0 0 22px;
+      }
+      .updated-badge {
+        display: inline-block;
+        font-size: 14px;
+        color: var(--ink-soft);
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 4px 14px;
+        margin-bottom: 16px;
+      }
+
+      /* 인사말 */
+      .greeting {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+        text-align: center;
+      }
+      .greeting-photo {
+        width: 168px;
+        height: 200px;
+        background: linear-gradient(160deg, var(--forest), var(--forest-dark));
+        border-radius: 84px 84px 12px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #f3e8ce;
+        font-size: 56px;
+        box-shadow: 0 10px 26px rgba(44, 64, 48, 0.22);
+        flex-shrink: 0;
+      }
+      .greeting-text {
+        text-align: left;
+      }
+      .greeting-text p {
+        margin: 0 0 16px;
+        font-size: 17px;
+      }
+      .greeting-signoff {
+        margin-top: 6px;
+        font-family: "Noto Serif KR", serif;
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--forest-dark);
+      }
+      .greeting-signoff span {
+        display: block;
+        font-family: "Pretendard", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        color: var(--ink-soft);
+        margin-top: 2px;
+      }
+      @media (min-width: 560px) {
+        .greeting {
+          flex-direction: row;
+          align-items: flex-start;
+          text-align: left;
+        }
+      }
+      @media (max-width: 480px) {
+        .greeting-text {
+          text-align: center;
+        }
+      }
+
+      /* 역사 타임라인 */
+      .timeline {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .timeline li {
+        position: relative;
+        padding: 4px 0 30px 34px;
+        border-left: 2px solid var(--line);
+      }
+      .timeline li:last-child {
+        border-left-color: transparent;
+        padding-bottom: 0;
+      }
+      .timeline li::before {
+        content: "";
+        position: absolute;
+        left: -7px;
+        top: 6px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--brass);
+        border: 3px solid var(--cream);
+      }
+      .timeline .year {
+        display: block;
+        font-weight: 800;
+        color: var(--forest-dark);
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+      .timeline .event {
+        color: var(--ink);
+        font-size: 17px;
+      }
+
+      /* 섬기는 사람들 */
+      .staff-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 18px;
+      }
+      .staff-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 22px 18px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(44, 64, 48, 0.08);
+      }
+      .staff-avatar {
+        width: 84px;
+        height: 84px;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: var(--forest);
+        color: #f3e8ce;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        font-weight: 800;
+      }
+      .staff-role {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--brass);
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+      .staff-name {
+        font-size: 20px;
+        font-weight: 800;
+        margin: 0 0 6px;
+      }
+      .staff-desc {
+        font-size: 15px;
+        color: var(--ink-soft);
+        margin: 0;
+      }
+
+      /* 영상 */
+      .video-frame {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+        background: #1c1c1c;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(44, 64, 48, 0.18);
+        border: 4px solid var(--paper);
+        outline: 1px solid var(--line);
+      }
+      .video-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .video-empty {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ccc;
+        font-size: 17px;
+        text-align: center;
+        padding: 20px;
+      }
+
+      /* 주보 */
+      .bulletin-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+        box-shadow: 0 10px 28px rgba(44, 64, 48, 0.1);
+        text-align: center;
+      }
+      .bulletin-card img {
+        width: 100%;
+        max-height: 640px;
+        object-fit: contain;
+        border-radius: 10px;
+        cursor: zoom-in;
+        margin: 0 auto;
+      }
+      .bulletin-hint {
+        margin-top: 12px;
+        font-size: 15px;
+        color: var(--ink-soft);
+      }
+      .bulletin-empty {
+        padding: 60px 20px;
+        color: var(--ink-soft);
+        font-size: 17px;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(20, 15, 10, 0.92);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .lightbox.open {
+        display: flex;
+      }
+      .lightbox img {
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 6px;
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--ink);
+        border: none;
+        font-size: 26px;
+        cursor: pointer;
+      }
+
+      /* 예배시간표 */
+      table.schedule {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--paper);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(44, 64, 48, 0.1);
+      }
+      table.schedule th,
+      table.schedule td {
+        padding: 16px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        font-size: 17px;
+      }
+      table.schedule th {
+        background: var(--forest);
+        color: #fff;
+        font-weight: 700;
+        width: 40%;
+      }
+      table.schedule tr:last-child th,
+      table.schedule tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* 오시는 길 */
+      .address {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin-bottom: 18px;
+        font-size: 17px;
+      }
+      .map-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .map-btn {
+        flex: 1 1 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 18px 16px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        min-height: 60px;
+      }
+      .map-btn.kakao {
+        background: #fee500;
+        color: #3c1e1e;
+      }
+      .map-btn.naver {
+        background: #03c75a;
+        color: #fff;
+      }
+
+      .contact {
+        text-align: center;
+        background: var(--forest-dark);
+        color: #fbf6ea;
+        padding: 40px 20px;
+      }
+      .contact p {
+        margin: 0 0 14px;
+        font-size: 18px;
+        color: #e4d8be;
+      }
+      .contact a.phone {
+        display: inline-block;
+        font-size: 25px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #fff;
+        border: 2px solid var(--brass);
+        border-radius: 40px;
+        padding: 14px 34px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 24px 20px 40px;
+        font-size: 14px;
+        color: var(--ink-soft);
+      }
+      footer a {
+        color: var(--ink-soft);
+        text-decoration: underline;
+      }
+
+      @media (max-width: 480px) {
+        .brand-name {
+          font-size: 22px;
+        }
+        body {
+          font-size: 17px;
+        }
+        .section-title {
+          font-size: 22px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .hero-slide {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 상단 유틸바 -->
+    <div class="utility-bar">
+      <div class="wrap">
+        <a href="tel:041-000-0000">문의전화</a>
+        <span class="sep">|</span>
+        <a href="#location">오시는길</a>
+        <span class="sep">|</span>
+        <a href="/admin.html">관리자</a>
+      </div>
+    </div>
+
+    <!-- 로고 헤더 -->
+    <header class="brand-header">
+      <div class="wrap">
+        <div class="brand">
+          <div class="mark" aria-hidden="true">✝</div>
+          <div>
+            <div class="brand-name">백초교회</div>
+            <div class="brand-sub">gracegarden-church.pages.dev</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 메인 내비게이션 -->
+    <nav class="main-nav" aria-label="주요 메뉴">
+      <ul class="nav-list">
+        <li><a href="#greeting">교회소개</a></li>
+        <li><a href="#history">교회역사</a></li>
+        <li><a href="#staff">섬기는사람들</a></li>
+        <li><a href="#sermon">주일설교</a></li>
+        <li><a href="#bulletin">교회주보</a></li>
+        <li><a href="#schedule">예배시간</a></li>
+        <li><a href="#location">오시는길</a></li>
+      </ul>
+    </nav>
+
+    <!-- 히어로 슬라이더 -->
+    <div class="hero-slider" id="heroSlider">
+      <div class="hero-slide s1 active">
+        <div class="hero-text">
+          <p class="verse">"너의 길을 여호와께 맡기라"</p>
+          <p class="cite">시편 37편 5절</p>
+        </div>
+      </div>
+      <div class="hero-slide s2">
+        <div class="hero-text">
+          <p class="verse">
+            "여호와는 나의 목자시니<br />내게 부족함이 없으리로다"
+          </p>
+          <p class="cite">시편 23편 1절</p>
+        </div>
+      </div>
+      <div class="hero-slide s3">
+        <div class="hero-text">
+          <p class="verse">"항상 기뻐하라 쉬지 말고 기도하라"</p>
+          <p class="cite">데살로니가전서 5장 16-17절</p>
+        </div>
+      </div>
+      <div class="hero-dots" id="heroDots"></div>
+    </div>
+
+    <div class="wrap">
+      <!-- 컬러 타일 메뉴 -->
+      <section class="tile-menu" aria-label="바로가기 메뉴">
+        <div class="tile-grid">
+          <a class="color-tile t1" href="#greeting">
+            <span class="tile-icon" aria-hidden="true">⛪</span>
+            <span
+              ><h3>교회소개</h3>
+              <span class="more">MORE</span></span
+            >
+          </a>
+          <a class="color-tile t2" href="#sermon">
+            <span class="tile-icon" aria-hidden="true">📖</span>
+            <span
+              ><h3>주일설교</h3>
+              <span class="more">MORE</span></span
+            >
+          </a>
+          <a class="color-tile t3" href="#staff">
+            <span class="tile-icon" aria-hidden="true">🙏</span>
+            <span
+              ><h3>섬기는사람들</h3>
+              <span class="more">MORE</span></span
+            >
+          </a>
+        </div>
+      </section>
+
+      <!-- 바로가기 그리드 + 소식 사이드바 -->
+      <div class="portal">
+        <div class="shortcut-grid">
+          <a class="shortcut-card sc-greeting" href="#greeting">
+            <span class="ic" aria-hidden="true">🙏</span>
+            <span class="label">인사말</span>
+            <span class="cap">Greeting</span>
+          </a>
+          <a class="shortcut-card sc-history" href="#history">
+            <span class="ic" aria-hidden="true">📜</span>
+            <span class="label">교회역사</span>
+            <span class="cap">History</span>
+          </a>
+          <a class="shortcut-card sc-bulletin" href="#bulletin">
+            <span class="ic" aria-hidden="true">📰</span>
+            <span class="label">교회주보</span>
+            <span class="cap">Bulletin</span>
+          </a>
+          <a class="shortcut-card sc-schedule" href="#schedule">
+            <span class="ic" aria-hidden="true">⏰</span>
+            <span class="label">예배시간</span>
+            <span class="cap">Schedule</span>
+          </a>
+          <a class="shortcut-card sc-location" href="#location">
+            <span class="ic" aria-hidden="true">📍</span>
+            <span class="label">오시는길</span>
+            <span class="cap">Location</span>
+          </a>
+        </div>
+
+        <aside class="sidebar-card" aria-label="교회 소식">
+          <h3>교회소식 <span></span></h3>
+          <ul class="notice-list">
+            <li>
+              <span>추수감사절 예배 안내</span><span class="date">11-16</span>
+            </li>
+            <li>
+              <span>여름 성경학교 신청 접수</span
+              ><span class="date">07-01</span>
+            </li>
+            <li>
+              <span>새가족 환영회 모임</span><span class="date">06-14</span>
+            </li>
+            <li>
+              <span>수요기도회 장소 변경 안내</span
+              ><span class="date">05-22</span>
+            </li>
+          </ul>
+          <div class="quick-links">
+            <a class="quick-link" href="#schedule"
+              ><span class="ic" aria-hidden="true">⏰</span>예배시간</a
+            >
+            <a class="quick-link" href="#location"
+              ><span class="ic" aria-hidden="true">📍</span>오시는길</a
+            >
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <main class="wrap-narrow">
+      <!-- 담임목사 인사말 -->
+      <section class="detail" id="greeting" aria-labelledby="greeting-title">
+        <span class="eyebrow">GREETING</span>
+        <h2 class="section-title" id="greeting-title">담임목사 인사말</h2>
+        <div class="greeting">
+          <!-- 실제 목사님 사진으로 교체하려면 아래 div를 <img src="사진경로.jpg" class="greeting-photo" style="border-radius:84px 84px 12px 12px; object-fit:cover;"> 로 바꾸세요 -->
+          <div class="greeting-photo" aria-hidden="true">🙏</div>
+          <div class="greeting-text">
+            <p>
+              사랑하는 성도 여러분, 백초교회 홈페이지를 찾아주셔서 감사합니다.
+            </p>
+            <p>
+              작은 시골 마을에 세워진 저희 교회는 크지 않지만, 이웃과 함께
+              기도하고 서로를 돌보는 따뜻한 공동체가 되기를 소망하며 한 걸음씩
+              걸어왔습니다. 매주 함께 드리는 예배와 나눔 속에서 하나님의 은혜가
+              우리 모두에게 넉넉히 임하시길 바랍니다.
+            </p>
+            <p>언제든지 교회 문을 두드려 주세요. 반갑게 맞이하겠습니다.</p>
+            <p class="greeting-signoff">
+              담임목사 박현만 드림<span>백초교회</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 교회 역사 -->
+      <section class="detail" id="history" aria-labelledby="history-title">
+        <span class="eyebrow">HISTORY</span>
+        <h2 class="section-title" id="history-title">교회 역사</h2>
+        <ol class="timeline">
+          <li>
+            <span class="year">1978년</span
+            ><span class="event"
+              >마을 사랑방에서 7명의 성도가 모여 첫 예배를 드리다</span
+            >
+          </li>
+          <li>
+            <span class="year">1985년</span
+            ><span class="event">현재 자리에 예배당을 건축하고 입당하다</span>
+          </li>
+          <li>
+            <span class="year">1999년</span
+            ><span class="event"
+              >교육관을 신축하여 다음세대 교육을 시작하다</span
+            >
+          </li>
+          <li>
+            <span class="year">2010년</span
+            ><span class="event"
+              >지역 어르신을 위한 무료 급식 봉사를 시작하다</span
+            >
+          </li>
+          <li>
+            <span class="year">2023년</span
+            ><span class="event"
+              >예배당을 리모델링하고 온라인 예배 송출을 시작하다</span
+            >
+          </li>
+        </ol>
+      </section>
+
+      <!-- 섬기는 사람들 -->
+      <section class="detail" id="staff" aria-labelledby="staff-title">
+        <span class="eyebrow">OUR TEAM</span>
+        <h2 class="section-title" id="staff-title">섬기는 사람들</h2>
+        <div class="staff-grid">
+          <div class="staff-card">
+            <div class="staff-avatar" aria-hidden="true">김</div>
+            <span class="staff-role">담임목사</span>
+            <p class="staff-name">박현만 목사</p>
+            <p class="staff-desc">말씀과 기도로 성도를 섬깁니다</p>
+          </div>
+          <div class="staff-card">
+            <div class="staff-avatar" aria-hidden="true">이</div>
+            <span class="staff-role">협동목사</span>
+            <p class="staff-name">이믿음 목사</p>
+            <p class="staff-desc">심방과 교육을 담당합니다</p>
+          </div>
+          <div class="staff-card">
+            <div class="staff-avatar" aria-hidden="true">박</div>
+            <span class="staff-role">시무장로</span>
+            <p class="staff-name">박소망 장로</p>
+            <p class="staff-desc">교회 운영과 재정을 섬깁니다</p>
+          </div>
+          <div class="staff-card">
+            <div class="staff-avatar" aria-hidden="true">최</div>
+            <span class="staff-role">찬양팀장</span>
+            <p class="staff-name">최찬양 집사</p>
+            <p class="staff-desc">매주 예배 찬양을 인도합니다</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 설교 -->
+      <section class="detail" id="sermon" aria-labelledby="sermon-title">
+        <span class="eyebrow">SERMON</span>
+        <h2 class="section-title" id="sermon-title">이번 주 설교 말씀</h2>
+        <div class="video-frame" id="videoFrame">
+          <div class="video-empty" id="videoEmpty">
+            아직 등록된 영상이 없습니다.<br />곧 업로드될 예정입니다.
+          </div>
+        </div>
+      </section>
+
+      <!-- 주보 -->
+      <section class="detail" id="bulletin" aria-labelledby="bulletin-title">
+        <span class="eyebrow">BULLETIN</span>
+        <h2 class="section-title" id="bulletin-title">이번 주 주보</h2>
+        <div id="updatedBadgeWrap"></div>
+        <div class="bulletin-card">
+          <img
+            id="bulletinImg"
+            src=""
+            alt="이번 주 주보 이미지"
+            style="display: none"
+          />
+          <div class="bulletin-empty" id="bulletinEmpty">
+            아직 등록된 주보가 없습니다.
+          </div>
+          <p class="bulletin-hint" id="bulletinHint" style="display: none">
+            이미지를 누르면 크게 볼 수 있어요
+          </p>
+        </div>
+      </section>
+
+      <!-- 예배시간표 -->
+      <section class="detail" id="schedule" aria-labelledby="schedule-title">
+        <span class="eyebrow">SCHEDULE</span>
+        <h2 class="section-title" id="schedule-title">예배 시간 안내</h2>
+        <table class="schedule">
+          <tr>
+            <th>주일 대예배</th>
+            <td>오전 11:00</td>
+          </tr>
+          <tr>
+            <th>주일 오후예배</th>
+            <td>오후 2:00</td>
+          </tr>
+          <tr>
+            <th>수요 기도회</th>
+            <td>오후 7:30</td>
+          </tr>
+          <tr>
+            <th>새벽예배</th>
+            <td>오전 5:30 (월~토)</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- 오시는 길 -->
+      <section class="detail" id="location" aria-labelledby="location-title">
+        <span class="eyebrow">LOCATION</span>
+        <h2 class="section-title" id="location-title">오시는 길</h2>
+        <div class="address">
+          충청남도 ○○군 ○○면 ○○로 123<br />
+          백초교회
+        </div>
+        <div class="map-buttons">
+          <a
+            class="map-btn kakao"
+            href="https://map.kakao.com/link/search/백초교회"
+            target="_blank"
+            rel="noopener"
+            >카카오맵으로 보기</a
+          >
+          <a
+            class="map-btn naver"
+            href="https://map.naver.com/p/search/백초교회"
+            target="_blank"
+            rel="noopener"
+            >네이버지도로 보기</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <div class="contact">
+      <p>오시는 길이 궁금하시거나 도움이 필요하시면 전화 주세요</p>
+      <a class="phone" href="tel:041-000-0000">041-000-0000</a>
+    </div>
+
+    <footer>
+      <p>&copy; <span id="year"></span> 백초교회. All rights reserved.</p>
+      <p><a href="/admin.html">관리자 페이지</a></p>
+    </footer>
+
+    <!-- 주보 확대 팝업 -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightboxClose" aria-label="닫기">
+        &times;
+      </button>
+      <img id="lightboxImg" src="" alt="주보 확대 이미지" />
+    </div>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      /* ===== 히어로 슬라이더 ===== */
+      (function () {
+        const slides = Array.from(document.querySelectorAll(".hero-slide"));
+        const dotsWrap = document.getElementById("heroDots");
+        let current = 0;
+        let timer = null;
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        slides.forEach((_, i) => {
+          const dot = document.createElement("button");
+          dot.setAttribute("aria-label", `${i + 1}번째 슬라이드 보기`);
+          if (i === 0) dot.classList.add("active");
+          dot.addEventListener("click", () => goTo(i, true));
+          dotsWrap.appendChild(dot);
+        });
+        const dots = Array.from(dotsWrap.children);
+
+        function goTo(index, manual) {
+          slides[current].classList.remove("active");
+          dots[current].classList.remove("active");
+          current = index;
+          slides[current].classList.add("active");
+          dots[current].classList.add("active");
+          if (manual) restartTimer();
+        }
+
+        function next() {
+          goTo((current + 1) % slides.length, false);
+        }
+
+        function restartTimer() {
+          if (timer) clearInterval(timer);
+          if (!reduceMotion) timer = setInterval(next, 5500);
+        }
+
+        if (!reduceMotion) restartTimer();
+      })();
+
+      function getYoutubeEmbedUrl(url) {
+        if (!url) return null;
+        try {
+          const u = new URL(url);
+          let id = null;
+          if (u.hostname.includes("youtu.be")) {
+            id = u.pathname.slice(1);
+          } else if (u.hostname.includes("youtube.com")) {
+            if (u.pathname === "/watch") {
+              id = u.searchParams.get("v");
+            } else if (u.pathname.startsWith("/live/")) {
+              id = u.pathname.split("/")[2];
+            } else if (u.pathname.startsWith("/embed/")) {
+              id = u.pathname.split("/")[2];
+            }
+          }
+          if (!id) return null;
+          return `https://www.youtube.com/embed/${id}`;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      async function loadChurchData() {
+        try {
+          const res = await fetch("/api/config", { cache: "no-store" });
+          if (!res.ok) throw new Error("failed to load");
+          const data = await res.json();
+
+          const embedUrl = getYoutubeEmbedUrl(data.youtubeUrl);
+          const frame = document.getElementById("videoFrame");
+          if (embedUrl) {
+            frame.innerHTML = `<iframe src="${embedUrl}" title="이번 주 설교 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+          }
+
+          if (data.bulletinImage) {
+            const img = document.getElementById("bulletinImg");
+            img.src = data.bulletinImage;
+            img.style.display = "block";
+            document.getElementById("bulletinEmpty").style.display = "none";
+            document.getElementById("bulletinHint").style.display = "block";
+
+            img.addEventListener("click", () => {
+              document.getElementById("lightboxImg").src = data.bulletinImage;
+              document.getElementById("lightbox").classList.add("open");
+            });
+          }
+
+          if (data.updatedAt) {
+            const d = new Date(data.updatedAt);
+            const formatted = `${d.getFullYear()}.${String(
+              d.getMonth() + 1,
+            ).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")} 갱신`;
+            document.getElementById(
+              "updatedBadgeWrap",
+            ).innerHTML = `<span class="updated-badge">${formatted}</span>`;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      document.getElementById("lightboxClose").addEventListener("click", () => {
+        document.getElementById("lightbox").classList.remove("open");
+      });
+      document.getElementById("lightbox").addEventListener("click", (e) => {
+        if (e.target.id === "lightbox")
+          document.getElementById("lightbox").classList.remove("open");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape")
+          document.getElementById("lightbox").classList.remove("open");
+      });
+
+      loadChurchData();
+    </script>
+  </body>
+</html>

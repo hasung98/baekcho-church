@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=3.0"
+    />
+    <title>관리자 - 백초교회</title>
+    <style>
+      :root {
+        --bg: #f6f1e6;
+        --paper: #ffffff;
+        --ink: #26231d;
+        --ink-soft: #5b5346;
+        --wood: #3f5b44;
+        --wood-dark: #2c4030;
+        --sage: #3f5b44;
+        --gold: #c08d42;
+        --line: #e6dfcf;
+        --danger: #b23a2e;
+        --ok: #2f7a3e;
+        --focus: #1959b8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic",
+          sans-serif;
+        font-size: 19px;
+        line-height: 1.7;
+      }
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+      header {
+        background: linear-gradient(
+          180deg,
+          var(--wood-dark) 0%,
+          var(--wood) 100%
+        );
+        color: #fbf3e6;
+        text-align: center;
+        padding: 30px 20px;
+        border-bottom: 6px solid var(--gold);
+      }
+      header h1 {
+        margin: 0;
+        font-size: 24px;
+        font-family: "Noto Serif KR", "Nanum Myeongjo", serif;
+      }
+      header p {
+        margin: 6px 0 0;
+        font-size: 15px;
+        color: #e9d9be;
+      }
+
+      .wrap {
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 30px 20px 80px;
+      }
+
+      .card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px 22px;
+        box-shadow: 0 8px 24px rgba(74, 46, 26, 0.1);
+        margin-bottom: 22px;
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 19px;
+      }
+      .desc {
+        color: var(--ink-soft);
+        font-size: 16px;
+        margin: 0 0 14px;
+      }
+
+      input[type="password"],
+      input[type="text"],
+      input[type="url"] {
+        width: 100%;
+        padding: 16px 14px;
+        font-size: 22px;
+        border: 2px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        color: var(--ink);
+        letter-spacing: 1px;
+      }
+      input[type="password"] {
+        text-align: center;
+        letter-spacing: 8px;
+      }
+
+      .big-btn {
+        display: block;
+        width: 100%;
+        padding: 20px;
+        font-size: 22px;
+        font-weight: 800;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        margin-top: 18px;
+      }
+      .btn-primary {
+        background: var(--wood);
+        color: #fff;
+      }
+      .btn-primary:disabled {
+        background: #c9b8a6;
+        cursor: not-allowed;
+      }
+      .btn-secondary {
+        background: var(--sage);
+        color: #fff;
+        margin-top: 12px;
+      }
+
+      .msg {
+        margin-top: 14px;
+        padding: 14px 16px;
+        border-radius: 10px;
+        font-size: 17px;
+        display: none;
+      }
+      .msg.error {
+        background: #fbeae7;
+        color: var(--danger);
+        display: block;
+      }
+      .msg.ok {
+        background: #e9f5eb;
+        color: var(--ok);
+        display: block;
+      }
+      .msg.info {
+        background: #eef3fb;
+        color: var(--focus);
+        display: block;
+      }
+
+      /* 파일 업로드 영역 */
+      .upload-box {
+        border: 3px dashed var(--line);
+        border-radius: 12px;
+        padding: 30px 16px;
+        text-align: center;
+        cursor: pointer;
+        background: #fcfaf5;
+      }
+      .upload-box.dragover {
+        border-color: var(--wood);
+        background: #f3ebdf;
+      }
+      .upload-box p {
+        margin: 8px 0 0;
+        color: var(--ink-soft);
+        font-size: 16px;
+      }
+      .upload-box .icon {
+        font-size: 40px;
+      }
+      input[type="file"] {
+        display: none;
+      }
+
+      .preview-wrap {
+        margin-top: 16px;
+        text-align: center;
+      }
+      .preview-wrap img {
+        max-width: 100%;
+        max-height: 320px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+      }
+      .preview-info {
+        font-size: 15px;
+        color: var(--ink-soft);
+        margin-top: 8px;
+      }
+
+      #loginScreen,
+      #adminScreen {
+        display: none;
+      }
+      #loginScreen.show,
+      #adminScreen.show {
+        display: block;
+      }
+
+      .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        background: var(--gold);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 16px;
+        font-weight: 800;
+        margin-right: 10px;
+      }
+      .step-title {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+
+      .top-status {
+        text-align: right;
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 14px 20px 0;
+        font-size: 15px;
+        color: var(--ink-soft);
+      }
+      .top-status button {
+        background: none;
+        border: none;
+        color: var(--danger);
+        font-size: 15px;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 3px solid rgba(255, 255, 255, 0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>백초교회 관리자</h1>
+      <p>홈페이지 내용을 수정하는 화면입니다</p>
+    </header>
+
+    <div class="top-status" id="topStatus"></div>
+
+    <div class="wrap">
+      <!-- 로그인 화면 -->
+      <div id="loginScreen" class="card show">
+        <label for="pwInput">관리자 비밀번호를 입력하세요</label>
+        <p class="desc">교회에서 정한 4자리 숫자를 입력해 주세요.</p>
+        <input
+          type="password"
+          id="pwInput"
+          inputmode="numeric"
+          maxlength="4"
+          placeholder="••••"
+          autocomplete="off"
+        />
+        <button class="big-btn btn-primary" id="loginBtn">확인</button>
+        <div class="msg error" id="loginMsg"></div>
+      </div>
+
+      <!-- 관리 화면 -->
+      <div id="adminScreen">
+        <div class="card">
+          <div class="step-title">
+            <span class="step-num">1</span> 이번 주 설교 유튜브 링크
+          </div>
+          <p class="desc">
+            유튜브 앱이나 사이트에서 <b>공유 → 링크 복사</b>한 주소를
+            붙여넣으세요.
+          </p>
+          <input
+            type="url"
+            id="youtubeInput"
+            placeholder="https://www.youtube.com/watch?v=... 또는 https://youtu.be/..."
+          />
+          <div class="msg error" id="youtubeMsg"></div>
+        </div>
+
+        <div class="card">
+          <div class="step-title">
+            <span class="step-num">2</span> 이번 주 주보 사진
+          </div>
+          <p class="desc">
+            주보를 스마트폰으로 촬영하거나, 갤러리에서 사진을 선택하세요.
+          </p>
+
+          <div class="upload-box" id="uploadBox">
+            <div class="icon">📷</div>
+            <div><b>여기를 눌러 사진 선택</b></div>
+            <p>또는 사진을 이 위에 끌어다 놓으세요</p>
+          </div>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            capture="environment"
+          />
+
+          <div class="preview-wrap" id="previewWrap" style="display: none">
+            <img id="previewImg" src="" alt="주보 미리보기" />
+            <div class="preview-info" id="previewInfo"></div>
+          </div>
+          <div class="msg info" id="uploadMsg"></div>
+        </div>
+
+        <button class="big-btn btn-primary" id="saveBtn">
+          📢 홈페이지에 즉시 반영하기
+        </button>
+        <button class="big-btn btn-secondary" id="viewSiteBtn">
+          홈페이지 보기
+        </button>
+        <div class="msg" id="saveMsg"></div>
+      </div>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      let adminPassword = null; // 로그인 성공 후 메모리에만 보관 (새로고침 시 초기화)
+      let bulletinBase64 = null; // 새로 업로드한 이미지 (base64). null이면 기존 이미지 유지.
+      let currentData = { youtubeUrl: "", bulletinImage: "", updatedAt: null };
+
+      // ---------- 화면 전환 ----------
+      function showAdminScreen() {
+        $("loginScreen").classList.remove("show");
+        $("adminScreen").classList.add("show");
+        $(
+          "topStatus",
+        ).innerHTML = `로그인됨 · <button id="logoutBtn">로그아웃</button>`;
+        $("logoutBtn").addEventListener("click", () => location.reload());
+      }
+
+      // ---------- 로그인 ----------
+      async function tryLogin() {
+        const pw = $("pwInput").value.trim();
+        $("loginMsg").style.display = "none";
+
+        if (!pw) {
+          $("loginMsg").textContent = "비밀번호를 입력해 주세요.";
+          $("loginMsg").style.display = "block";
+          return;
+        }
+
+        $("loginBtn").disabled = true;
+        $("loginBtn").textContent = "확인 중...";
+
+        try {
+          const res = await fetch("/api/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: pw }),
+          });
+          const result = await res.json();
+
+          if (res.ok && result.ok) {
+            adminPassword = pw;
+            await loadCurrentData();
+            showAdminScreen();
+          } else {
+            $("loginMsg").textContent =
+              "비밀번호가 올바르지 않습니다. 다시 확인해 주세요.";
+            $("loginMsg").style.display = "block";
+          }
+        } catch (err) {
+          $("loginMsg").textContent =
+            "서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.";
+          $("loginMsg").style.display = "block";
+        } finally {
+          $("loginBtn").disabled = false;
+          $("loginBtn").textContent = "확인";
+        }
+      }
+
+      $("loginBtn").addEventListener("click", tryLogin);
+      $("pwInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") tryLogin();
+      });
+
+      // ---------- 기존 데이터 불러오기 ----------
+      async function loadCurrentData() {
+        try {
+          const res = await fetch("/api/config", { cache: "no-store" });
+          if (res.ok) {
+            currentData = await res.json();
+            $("youtubeInput").value = currentData.youtubeUrl || "";
+            if (currentData.bulletinImage) {
+              $("previewImg").src = currentData.bulletinImage;
+              $("previewWrap").style.display = "block";
+              $("previewInfo").textContent =
+                "현재 등록된 주보 (변경하려면 새 사진을 선택하세요)";
+            }
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      // ---------- 파일 업로드 (이미지 자동 압축 포함) ----------
+      $("uploadBox").addEventListener("click", () => $("fileInput").click());
+
+      $("uploadBox").addEventListener("dragover", (e) => {
+        e.preventDefault();
+        $("uploadBox").classList.add("dragover");
+      });
+      $("uploadBox").addEventListener("dragleave", () =>
+        $("uploadBox").classList.remove("dragover"),
+      );
+      $("uploadBox").addEventListener("drop", (e) => {
+        e.preventDefault();
+        $("uploadBox").classList.remove("dragover");
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      $("fileInput").addEventListener("change", (e) => {
+        if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+      });
+
+      function handleFile(file) {
+        $("uploadMsg").className = "msg info";
+        $("uploadMsg").textContent = "사진을 준비하고 있어요...";
+        $("uploadMsg").style.display = "block";
+
+        if (!file.type.startsWith("image/")) {
+          $("uploadMsg").className = "msg error";
+          $("uploadMsg").textContent = "이미지 파일만 선택할 수 있어요.";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            // 고령층 담당자가 큰 원본 사진을 올려도 자동으로 적당한 크기로 줄여줌
+            const MAX_WIDTH = 1400;
+            let { width, height } = img;
+            if (width > MAX_WIDTH) {
+              height = Math.round(height * (MAX_WIDTH / width));
+              width = MAX_WIDTH;
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const quality = 0.82;
+            const dataUrl = canvas.toDataURL("image/jpeg", quality);
+
+            bulletinBase64 = dataUrl;
+            $("previewImg").src = dataUrl;
+            $("previewWrap").style.display = "block";
+
+            const sizeKB = Math.round((dataUrl.length * 0.75) / 1024);
+            $(
+              "previewInfo",
+            ).textContent = `새로 선택한 사진 (약 ${sizeKB}KB) · 아래 저장 버튼을 눌러야 반영돼요`;
+            $("uploadMsg").style.display = "none";
+          };
+          img.onerror = () => {
+            $("uploadMsg").className = "msg error";
+            $("uploadMsg").textContent =
+              "사진을 읽을 수 없어요. 다른 사진으로 시도해 주세요.";
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // ---------- 저장 ----------
+      $("saveBtn").addEventListener("click", async () => {
+        const youtubeUrl = $("youtubeInput").value.trim();
+        $("youtubeMsg").style.display = "none";
+
+        if (
+          youtubeUrl &&
+          !/^https?:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(youtubeUrl)
+        ) {
+          $("youtubeMsg").textContent =
+            "유튜브 주소 형식이 올바르지 않습니다. (youtube.com 또는 youtu.be로 시작해야 해요)";
+          $("youtubeMsg").style.display = "block";
+          return;
+        }
+
+        $("saveBtn").disabled = true;
+        $("saveBtn").innerHTML = '<span class="spinner"></span>반영하는 중...';
+        $("saveMsg").style.display = "none";
+
+        const payload = {
+          password: adminPassword,
+          youtubeUrl: youtubeUrl,
+          // 새 이미지를 고르지 않았으면 기존 이미지를 그대로 유지
+          bulletinImage: bulletinBase64 || currentData.bulletinImage || "",
+        };
+
+        try {
+          const res = await fetch("/api/config", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const result = await res.json();
+
+          if (res.ok && result.ok) {
+            $("saveMsg").className = "msg ok";
+            $("saveMsg").textContent =
+              '✅ 홈페이지에 반영되었습니다! "홈페이지 보기" 버튼으로 확인해 보세요.';
+            $("saveMsg").style.display = "block";
+            currentData.youtubeUrl = youtubeUrl;
+            currentData.bulletinImage = payload.bulletinImage;
+          } else if (res.status === 401) {
+            $("saveMsg").className = "msg error";
+            $("saveMsg").textContent =
+              "로그인이 만료되었습니다. 새로고침 후 다시 로그인해 주세요.";
+            $("saveMsg").style.display = "block";
+          } else {
+            throw new Error(result.error || "저장 실패");
+          }
+        } catch (err) {
+          $("saveMsg").className = "msg error";
+          $("saveMsg").textContent =
+            "저장 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+          $("saveMsg").style.display = "block";
+        } finally {
+          $("saveBtn").disabled = false;
+          $("saveBtn").textContent = "📢 홈페이지에 즉시 반영하기";
+        }
+      });
+
+      $("viewSiteBtn").addEventListener("click", () => {
+        window.open("/", "_blank");
+      });
+    </script>
+  </body>
+</html>
